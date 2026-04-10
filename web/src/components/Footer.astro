@@ -1,0 +1,127 @@
+---
+import { env } from "../lib/env";
+
+const strapiUrl = env.REACT_STRAPI_URL || env.STRAPI_URL || "";
+const cookieConsent = env.PUBLIC_COOKIE_CONSENT === "true";
+---
+
+<footer class="bg-gray-900 text-gray-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-8">
+    <div class="grid md:grid-cols-3 gap-12 mb-12">
+      <!-- Brand -->
+      <div>
+        <a href="/" class="flex items-center gap-2 font-bold text-lg text-white mb-4">
+          <img src="/assets/skelly-head.png" alt="" class="w-8 h-8 object-contain" />
+          Skelly
+        </a>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Votre starter pour démarrer rapidement vos projets web.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <h3 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Navigation</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/" class="hover:text-white transition-colors">Accueil</a></li>
+          <li><a href="/articles" class="hover:text-white transition-colors">Articles</a></li>
+          <li><a href="/contact" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href="/politique-de-confidentialite" class="hover:text-white transition-colors">Confidentialité</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h3 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Newsletter</h3>
+        <p class="text-sm text-gray-400 mb-4">Recevez nos dernières actualités directement dans votre boîte mail.</p>
+
+        <div id="nl-alert" class="mb-3">
+          <div id="nl-success-alert" role="alert" class="hidden text-sm bg-green-900/50 text-green-300 border border-green-700 px-3 py-2 rounded-lg">
+            Merci pour votre inscription !
+          </div>
+          <div id="nl-error-alert" role="alert" class="hidden text-sm bg-red-900/50 text-red-300 border border-red-700 px-3 py-2 rounded-lg">
+            Une erreur est survenue, veuillez réessayer.
+          </div>
+        </div>
+
+        <form id="newsletter-form">
+          <div class="flex flex-col sm:flex-row">
+            <input
+              type="email"
+              name="email"
+              placeholder="votre@email.com"
+              required
+              aria-label="Adresse email pour la newsletter"
+              class="flex-1 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg sm:rounded-r-none sm:rounded-l-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary-light"
+            />
+            <button
+              type="submit"
+              class="mt-2 sm:mt-0 px-5 py-2.5 bg-primary hover:bg-primary-dark text-white text-sm font-medium rounded-lg sm:rounded-l-none sm:rounded-r-lg transition-colors"
+            >
+              OK
+            </button>
+          </div>
+          <div class="mt-2">
+            <altcha-widget
+              challengeurl={`${strapiUrl}/api/captcha/challenge`}
+              auto="onsubmit"
+              hidefooter
+              style="--altcha-max-width: 100%;"
+            ></altcha-widget>
+          </div>
+          <p class="mt-2 text-xs text-gray-500">
+            En vous inscrivant, vous acceptez de recevoir notre newsletter. <a href="/politique-de-confidentialite" class="underline hover:text-gray-300">Politique de confidentialité</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+      <p>&copy; {new Date().getFullYear()} Skelly. Tous droits réservés.</p>
+      {cookieConsent && (
+        <button type="button" data-cc="c-settings" class="hover:text-gray-300 transition-colors">
+          Gestion des cookies
+        </button>
+      )}
+    </div>
+  </div>
+</footer>
+
+<script>
+  import 'altcha';
+</script>
+
+<script define:vars={{ strapiUrl }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    const nlSuccessAlert = document.querySelector('#nl-success-alert');
+    const nlErrorAlert = document.querySelector('#nl-error-alert');
+
+    document.querySelector('#newsletter-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      nlSuccessAlert.classList.add('hidden');
+      nlErrorAlert.classList.add('hidden');
+
+      var form = document.querySelector('#newsletter-form');
+      var formData = new FormData(form);
+
+      fetch(strapiUrl + '/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.get('email'),
+          captchaToken: formData.get('altcha'),
+        }),
+      }).then(function(res) {
+        if (res.status === 200) {
+          nlSuccessAlert.classList.remove('hidden');
+          form.reset();
+        } else {
+          nlErrorAlert.classList.remove('hidden');
+        }
+      }).catch(function() {
+        nlErrorAlert.classList.remove('hidden');
+      });
+    });
+  });
+</script>

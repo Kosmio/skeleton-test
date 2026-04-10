@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/Hero.astro";
+import ArticleList from "../../react-components/ArticleList";
+import { env } from "../../lib/env";
+
+const apiURL = env.REACT_STRAPI_URL || env.STRAPI_URL;
+---
+
+<Layout title="Articles" description="Tous nos articles et publications">
+  <Hero
+    title="Articles"
+    subtitle="Retrouvez toutes nos publications et actualités."
+    compact
+  />
+
+  <section class="bg-surface min-h-[50vh]">
+    <ArticleList client:visible apiURL={apiURL} />
+  </section>
+</Layout>

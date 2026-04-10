@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ContactForm from "../react-components/ContactForm";
+import { env } from "../lib/env";
+
+const strapiUrl = env.REACT_STRAPI_URL || env.STRAPI_URL || "";
+---
+
+<Layout title="Contact" description="Contactez-nous pour toute question ou projet">
+  <Hero
+    title="Contactez-nous"
+    subtitle="Une question, une idée de projet ? Nous serions ravis d'échanger avec vous."
+    compact
+  />
+
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+      <ContactForm client:visible strapiUrl={strapiUrl} />
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,121 @@
+# Base Docker Compose configuration for Skeleton Astro + Strapi
+# This file defines all services without environment-specific configuration.
+# Use overlays to customize for local/dev/prod environments.
+
+x-common-labels: &common-labels
+  traefik.docker.network: ${DOCKER_NETWORK}
+
+services:
+  # =============================================================================
+  # REVERSE PROXY
+  # =============================================================================
+  traefik:
+    image: traefik:${TRAEFIK_VERSION:-v3.6.1}
+    container_name: ${PROJECT_SLUG}-traefik
+    command:
+      - "--accesslog=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt-resolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt-resolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt-resolver.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.letsencrypt-resolver.acme.storage=/letsencrypt/acme.json"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-certificates:/letsencrypt
+    networks:
+      - net
+
+  # =============================================================================
+  # DATABASE
+  # =============================================================================
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-15-alpine}
+    platform: linux/amd64
+    container_name: ${PROJECT_SLUG}-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - net
+
+  # =============================================================================
+  # CMS
+  # =============================================================================
+  strapi:
+    image: ${DOCKER_REGISTRY_REPOSITORY}${PROJECT_SLUG}-strapi:${APP_VERSION}
+    platform: linux/amd64
+    container_name: ${PROJECT_SLUG}-strapi
+    labels:
+      <<: *common-labels
+    environment:
+      HOST: 0.0.0.0
+      PORT: 1337
+      BASE_URL: ${STRAPI_BASE_URL}
+      ADMIN_URL: ${STRAPI_ADMIN_URL:-/admin}
+      APP_KEYS: ${STRAPI_APP_KEYS}
+      API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET}
+      JWT_SECRET: ${STRAPI_JWT_SECRET}
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: ${POSTGRES_HOSTNAME}
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DB}
+      DATABASE_USERNAME: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      EMAIL_API_KEY: ${EMAIL_API_KEY:-}
+      EMAIL_LIST_ID: ${EMAIL_LIST_ID:-}
+      EMAIL_CONTACT_TO: ${EMAIL_CONTACT_TO:-}
+      EMAIL_CONTACT_TEMPLATE_ID: ${EMAIL_CONTACT_TEMPLATE_ID:-}
+      ALTCHA_HMAC_KEY: ${ALTCHA_HMAC_KEY:-}
+    depends_on:
+      - postgres
+    networks:
+      - net
+
+  # =============================================================================
+  # MCP SERVER (AI content management)
+  # =============================================================================
+  mcp:
+    image: ${DOCKER_REGISTRY_REPOSITORY}${PROJECT_SLUG}-mcp:${APP_VERSION}
+    platform: linux/amd64
+    container_name: ${PROJECT_SLUG}-mcp
+    labels:
+      <<: *common-labels
+    environment:
+      STRAPI_URL: ${STRAPI_INTERNAL_URL}
+      MCP_PORT: 3100
+    depends_on:
+      - strapi
+    networks:
+      - net
+
+  # =============================================================================
+  # FRONTEND
+  # =============================================================================
+  web:
+    image: ${DOCKER_REGISTRY_REPOSITORY}${PROJECT_SLUG}-web:${APP_VERSION}
+    platform: linux/amd64
+    container_name: ${PROJECT_SLUG}-web
+    labels:
+      <<: *common-labels
+    environment:
+      STRAPI_URL: ${STRAPI_INTERNAL_URL}
+      REACT_STRAPI_URL: ${STRAPI_PUBLIC_URL}
+      PUBLIC_MATOMO_URL: ${PUBLIC_MATOMO_URL:-}
+      PUBLIC_MATOMO_SITE_ID: ${PUBLIC_MATOMO_SITE_ID:-}
+    depends_on:
+      - strapi
+    networks:
+      - net
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+
+volumes:
+  postgres-data:
+  traefik-certificates:

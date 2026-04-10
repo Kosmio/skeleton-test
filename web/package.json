@@ -1,0 +1,30 @@
+{
+  "name": "@skeleton/web",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^10.0.3",
+    "@astrojs/react": "^5.0.1",
+    "@astrojs/sitemap": "^3.7.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "altcha": "^2.3.0",
+    "astro": "^6.0.7",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "tailwindcss": "^4.2.2"
+  }
+}

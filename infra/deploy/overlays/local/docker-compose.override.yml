@@ -1,0 +1,27 @@
+# Local development overlay
+# Exposes ports for direct access, uses host volumes
+# Strapi, web, and Traefik run locally or are not needed
+
+services:
+  traefik:
+    profiles:
+      - disabled
+
+  postgres:
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ~/DockerVolumes/${PROJECT_SLUG}/postgres:/var/lib/postgresql
+
+  # Disable services meant for remote deployments — run locally via pnpm dev
+  strapi:
+    profiles:
+      - disabled
+
+  mcp:
+    profiles:
+      - disabled
+
+  web:
+    profiles:
+      - disabled

@@ -1,0 +1,80 @@
+---
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: "/", label: "Accueil" },
+  { href: "/articles", label: "Articles" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+  <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 h-16">
+    <a href="/" class="flex items-center gap-2 font-bold text-lg text-primary">
+      <img src="/assets/skelly-head.png" alt="" class="w-8 h-8 object-contain" />
+      Skelly
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              "transition-colors",
+              currentPath === href || (href !== "/" && currentPath.startsWith(href))
+                ? "text-primary"
+                : "text-gray-600 hover:text-primary",
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-600" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="md:hidden border-t border-gray-100 bg-white px-4 sm:px-6 overflow-hidden transition-[max-height,padding] duration-300 ease-in-out max-h-0 pb-0">
+    <ul class="flex flex-col gap-1 pt-3 text-sm font-medium">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              "block py-3 transition-colors",
+              currentPath === href || (href !== "/" && currentPath.startsWith(href))
+                ? "text-primary"
+                : "text-gray-600 hover:text-primary",
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    menuBtn?.addEventListener('click', () => {
+      const isExpanded = menu?.style.maxHeight && menu.style.maxHeight !== '0px';
+      if (isExpanded) {
+        menu!.style.maxHeight = '0px';
+        menu!.style.paddingBottom = '0';
+      } else {
+        menu!.style.maxHeight = menu!.scrollHeight + 'px';
+        menu!.style.paddingBottom = '1rem';
+      }
+      menuBtn?.setAttribute('aria-expanded', String(!isExpanded));
+    });
+  });
+</script>

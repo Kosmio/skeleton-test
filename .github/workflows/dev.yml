@@ -1,0 +1,109 @@
+name: Dev
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+jobs:
+  docker-strapi:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read project config
+        id: config
+        run: |
+          echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+          echo "slug=$(grep '^PROJECT_SLUG=' infra/deploy/base/.env.base | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
+
+      - name: Set lowercase owner
+        id: owner
+        run: echo "lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push Strapi
+        run: |
+          docker build --no-cache \
+            -f infra/docker/strapi/Dockerfile \
+            -t ghcr.io/${{ steps.owner.outputs.lc }}/${{ steps.config.outputs.slug }}-strapi:${{ steps.config.outputs.version }} .
+          docker push ghcr.io/${{ steps.owner.outputs.lc }}/${{ steps.config.outputs.slug }}-strapi:${{ steps.config.outputs.version }}
+
+  docker-web:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read project config
+        id: config
+        run: |
+          echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+          echo "slug=$(grep '^PROJECT_SLUG=' infra/deploy/base/.env.base | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
+
+      - name: Set lowercase owner
+        id: owner
+        run: echo "lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push Web
+        run: |
+          docker build --no-cache \
+            -f infra/docker/website/Dockerfile \
+            -t ghcr.io/${{ steps.owner.outputs.lc }}/${{ steps.config.outputs.slug }}-web:${{ steps.config.outputs.version }} .
+          docker push ghcr.io/${{ steps.owner.outputs.lc }}/${{ steps.config.outputs.slug }}-web:${{ steps.config.outputs.version }}
+
+  docker-mcp:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read project config
+        id: config
+        run: |
+          echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+          echo "slug=$(grep '^PROJECT_SLUG=' infra/deploy/base/.env.base | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
+
+      - name: Set lowercase owner
+        id: owner
+        run: echo "lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push MCP
+        run: |
+          docker build --no-cache \
+            -f infra/docker/mcp/Dockerfile \
+            -t ghcr.io/${{ steps.owner.outputs.lc }}/${{ steps.config.outputs.slug }}-mcp:${{ steps.config.outputs.version }} .
+          docker push ghcr.io/${{ steps.owner.outputs.lc }}/${{ steps.config.outputs.slug }}-mcp:${{ steps.config.outputs.version }}

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /strapi/
+
+Sitemap: https://your-domain.com/sitemap-index.xml
+LLMs: /llms.txt

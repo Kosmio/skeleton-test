@@ -1,0 +1,105 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<Layout title="Politique de confidentialité" description="Politique de confidentialité et protection des données personnelles">
+  <Hero
+    title="Politique de confidentialité"
+    subtitle="Informations sur le traitement de vos données personnelles."
+    compact
+  />
+
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 prose prose-sm sm:prose-lg">
+
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        <!-- [TODO: Remplacez par vos informations] -->
+        <strong>[TODO: Nom de la société / du responsable]</strong><br />
+        [TODO: Adresse postale]<br />
+        Email : [TODO: email de contact]
+      </p>
+
+      <h2>2. Données collectées et finalités</h2>
+
+      <h3>Formulaire de contact</h3>
+      <p>
+        Lorsque vous utilisez notre formulaire de contact, nous collectons votre nom, adresse email, objet et message.
+        Ces données sont utilisées <strong>uniquement pour répondre à votre demande</strong> (base légale : intérêt légitime, Art. 6(1)(f) RGPD).
+        Vos données sont transmises via le service Brevo (Sendinblue SAS, France) pour l'envoi d'email transactionnel et ne sont pas conservées dans notre base de données.
+      </p>
+
+      <h3>Newsletter</h3>
+      <p>
+        Lorsque vous vous inscrivez à notre newsletter, nous collectons votre adresse email.
+        Cette donnée est utilisée pour vous envoyer nos actualités (base légale : consentement, Art. 6(1)(a) RGPD).
+        Votre email est stocké chez Brevo (Sendinblue SAS, France), notre sous-traitant pour la gestion des newsletters.
+        Vous pouvez vous désinscrire à tout moment via le lien de désinscription présent dans chaque email.
+      </p>
+
+      <h3>Analytics</h3>
+      <p>
+        <!-- [TODO: Adapter selon votre configuration Matomo] -->
+        Nous utilisons Matomo en mode sans cookies pour mesurer l'audience de notre site.
+        Aucune donnée personnelle n'est collectée à cette fin. Ce traitement est exempt de consentement
+        conformément aux recommandations de la CNIL.
+      </p>
+
+      <h2>3. Sous-traitants</h2>
+      <table>
+        <thead>
+          <tr><th>Sous-traitant</th><th>Service</th><th>Localisation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Brevo (Sendinblue SAS)</td><td>Emails transactionnels, newsletter</td><td>France / UE</td></tr>
+          <!-- [TODO: Ajouter d'autres sous-traitants si applicable] -->
+        </tbody>
+      </table>
+
+      <h2>4. Durée de conservation</h2>
+      <ul>
+        <li><strong>Formulaire de contact :</strong> les données ne sont pas stockées (transmission par email uniquement).</li>
+        <li><strong>Newsletter :</strong> votre email est conservé jusqu'à votre désinscription.</li>
+      </ul>
+
+      <h2>5. Vos droits</h2>
+      <p>
+        Conformément au RGPD (Art. 15 à 22), vous disposez des droits suivants :
+      </p>
+      <ul>
+        <li><strong>Droit d'accès</strong> : obtenir une copie de vos données personnelles.</li>
+        <li><strong>Droit de rectification</strong> : corriger des données inexactes.</li>
+        <li><strong>Droit à l'effacement</strong> : demander la suppression de vos données.</li>
+        <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré.</li>
+        <li><strong>Droit d'opposition</strong> : vous opposer au traitement de vos données.</li>
+        <li><strong>Droit de retirer votre consentement</strong> à tout moment (pour la newsletter).</li>
+      </ul>
+      <p>
+        Pour exercer ces droits, contactez-nous à : <strong>[TODO: email de contact]</strong>
+      </p>
+
+      <h2>6. Cookies</h2>
+      <p>
+        Ce site utilise un cookie technique (<code>cc_cookie</code>) pour enregistrer vos préférences de consentement (durée : 6 mois).
+        Aucun cookie publicitaire ou de suivi n'est utilisé.
+      </p>
+
+      <h2>7. Transferts hors UE</h2>
+      <p>
+        <!-- [TODO: Adapter si vous utilisez des services hors UE] -->
+        Aucun transfert de données personnelles en dehors de l'Union Européenne n'est effectué.
+      </p>
+
+      <h2>8. Réclamation</h2>
+      <p>
+        Si vous estimez que le traitement de vos données ne respecte pas la réglementation,
+        vous pouvez introduire une réclamation auprès de la <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">CNIL</a>.
+      </p>
+
+      <p class="text-sm text-gray-500 mt-12">
+        Dernière mise à jour : <!-- [TODO: Date] -->
+      </p>
+    </div>
+  </section>
+</Layout>
