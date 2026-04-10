@@ -168,6 +168,16 @@ make stage
 # Use the "Deploy" workflow in GitHub Actions UI
 ```
 
+## Deployment Status
+
+`/setup-deploy` was run on 2026-04-10. Deployment infrastructure is configured:
+- GitHub secrets: configured (Strapi secrets, Postgres password, Altcha HMAC key) — **SSH key NOT set** (ask Luc)
+- GitHub variables: configured (DEPLOY_HOST=test.kosmio.dev, DEPLOY_USER=kosmio, SSH_PORT=2234)
+- GitHub environments: dev, prod
+- Local env files: strapi/.env, web/.env
+- Dev domain: test.kosmio.dev
+- Prod domain: not configured yet
+
 ## Quality Audits
 
 - `/quality` — **Start here.** Interactive quality audit across 5 categories. Saves reports to `reports/quality/`.

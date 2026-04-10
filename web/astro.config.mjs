@@ -6,7 +6,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://your-domain.com",
+  site: "https://test.kosmio.dev",
   integrations: [react(), sitemap()],
   output: "server",
   adapter: node({
