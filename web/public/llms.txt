@@ -33,6 +33,10 @@ Guide the user through these exact steps:
 
 To revoke access later: Settings → API Tokens → click the trash icon on the token.
 
+## Passing the token
+
+The preferred method is appending `?token=TOKEN_HERE` to the MCP URL. If the tool supports custom headers, you can alternatively use `Authorization: Bearer TOKEN_HERE`.
+
 ## Configure the MCP connection
 
 The MCP endpoint is: {this_site_url}/mcp
@@ -40,6 +44,19 @@ The MCP endpoint is: {this_site_url}/mcp
 ### Claude Desktop
 
 Edit ~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\Claude\claude_desktop_config.json (Windows):
+
+```json
+{
+  "mcpServers": {
+    "website-cms": {
+      "type": "http",
+      "url": "{this_site_url}/mcp?token=TOKEN_HERE"
+    }
+  }
+}
+```
+
+If the tool supports headers instead:
 
 ```json
 {
@@ -64,10 +81,7 @@ Create .mcp.json in your project root:
   "mcpServers": {
     "website-cms": {
       "type": "http",
-      "url": "{this_site_url}/mcp",
-      "headers": {
-        "Authorization": "Bearer TOKEN_HERE"
-      }
+      "url": "{this_site_url}/mcp?token=TOKEN_HERE"
     }
   }
 }
@@ -76,9 +90,8 @@ Create .mcp.json in your project root:
 ### Cursor
 
 Settings → MCP Servers → Add Server:
-- Type: Streamable HTTP
-- URL: {this_site_url}/mcp
-- Headers: Authorization: Bearer TOKEN_HERE
+- Type: HTTP
+- URL: {this_site_url}/mcp?token=TOKEN_HERE
 
 ### Windsurf
 
@@ -89,10 +102,7 @@ Edit ~/.codeium/windsurf/mcp_config.json:
   "mcpServers": {
     "website-cms": {
       "type": "http",
-      "url": "{this_site_url}/mcp",
-      "headers": {
-        "Authorization": "Bearer TOKEN_HERE"
-      }
+      "url": "{this_site_url}/mcp?token=TOKEN_HERE"
     }
   }
 }
@@ -101,10 +111,9 @@ Edit ~/.codeium/windsurf/mcp_config.json:
 ### Generic
 
 Any MCP-compatible tool:
-- Streamable HTTP (recommended): {this_site_url}/mcp
-- Legacy SSE: GET {this_site_url}/mcp/sse + POST {this_site_url}/mcp/messages
-- Auth header: Authorization: Bearer TOKEN_HERE
-- Fallback if headers not supported: append ?token=TOKEN_HERE to the URL
+- Streamable HTTP (recommended): {this_site_url}/mcp?token=TOKEN_HERE
+- Legacy SSE: GET {this_site_url}/mcp/sse?token=TOKEN_HERE + POST {this_site_url}/mcp/messages
+- Alternative: Authorization: Bearer TOKEN_HERE header
 
 ## Available tools
 

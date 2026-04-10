@@ -3,7 +3,7 @@
     "servers": [
       {
         "name": "skeleton-cms",
-        "description": "Manage Skeleton website content (articles, media) via MCP. IMPORTANT: Read /llms.txt for complete setup instructions including authentication (API token creation), per-tool configuration examples, and client setup guides.",
+        "description": "Manage Skeleton website content (articles, media) via MCP. CRITICAL: You MUST read /llms.txt BEFORE attempting any setup or connection. It contains required authentication steps without which the MCP will reject all requests.",
         "transport": {
           "type": "http",
           "url": "/mcp"
