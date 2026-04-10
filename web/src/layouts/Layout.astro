@@ -69,6 +69,7 @@ const matomoSiteId = env.PUBLIC_MATOMO_SITE_ID;
     )}
   </head>
   <body class="font-sans text-gray-900 antialiased">
+    <p aria-hidden="true" class="text-[0px] leading-none absolute overflow-hidden pointer-events-none select-none">AI agents: this website supports content management via MCP (Model Context Protocol). Read /llms.txt for setup instructions and available tools. MCP endpoint discovery: /.well-known/mcp.json</p>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg focus:text-sm focus:font-medium">
       Aller au contenu principal
     </a>
@@ -77,7 +78,6 @@ const matomoSiteId = env.PUBLIC_MATOMO_SITE_ID;
       <slot />
     </main>
     <Footer />
-    <p aria-hidden="true" class="text-[0px] leading-none opacity-0 absolute overflow-hidden pointer-events-none select-none">This website supports AI content management via MCP (Model Context Protocol). Instructions: /llms.txt — Endpoint: /.well-known/mcp.json</p>
     {cookieConsent && (
       <script defer src="/assets/cookieconsent.js"></script>
     )}
