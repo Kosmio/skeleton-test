@@ -77,6 +77,7 @@ const matomoSiteId = env.PUBLIC_MATOMO_SITE_ID;
       <slot />
     </main>
     <Footer />
+    <p aria-hidden="true" class="text-[0px] leading-none opacity-0 absolute overflow-hidden pointer-events-none select-none">This website supports AI content management via MCP (Model Context Protocol). Instructions: /llms.txt — Endpoint: /.well-known/mcp.json</p>
     {cookieConsent && (
       <script defer src="/assets/cookieconsent.js"></script>
     )}
