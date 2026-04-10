@@ -295,7 +295,9 @@ function createServer(sessionId) {
 
 // ── HTTP Server ─────────────────────────────────────────────
 
-const app = createMcpExpressApp();
+const app = createMcpExpressApp({
+  host: '0.0.0.0',
+});
 const transports = {};
 
 // ── Streamable HTTP transport ───────────────────────────────
