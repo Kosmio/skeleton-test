@@ -2,13 +2,17 @@
   "mcp": {
     "servers": [
       {
-        "name": "website-cms",
-        "description": "Manage website content (articles, media) via MCP",
+        "name": "skeleton-cms",
+        "description": "Manage Skeleton website content (articles, media) via MCP. IMPORTANT: Read /llms-full.txt for complete setup instructions including authentication (API token creation) and per-tool configuration examples. Quick summary at /llms.txt.",
         "transport": {
-          "type": "streamable-http",
+          "type": "http",
           "url": "/mcp"
         }
       }
     ]
+  },
+  "documentation": {
+    "setup_guide": "/llms-full.txt",
+    "summary": "/llms.txt"
   }
 }
