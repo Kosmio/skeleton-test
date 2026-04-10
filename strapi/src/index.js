@@ -2,12 +2,12 @@
 
 const SEED_ARTICLES = [
   {
-    title: 'Bienvenue sur Skelly',
-    slug: 'bienvenue-sur-skelly',
-    excerpt: "Découvrez Skelly, votre nouveau starter pour démarrer rapidement vos projets web.",
-    content: `## Skelly est prêt
+    title: 'Bienvenue sur Skeleton Test',
+    slug: 'bienvenue-sur-skeleton-test',
+    excerpt: "Découvrez Skeleton Test, votre nouveau starter pour démarrer rapidement vos projets web.",
+    content: `## Skeleton Test est prêt
 
-Félicitations, votre site est en ligne ! Skelly est construit sur une stack technique moderne, pensée pour la performance et la simplicité de maintenance.
+Félicitations, votre site est en ligne ! Skeleton Test est construit sur une stack technique moderne, pensée pour la performance et la simplicité de maintenance.
 
 ### Ce que vous pouvez faire
 

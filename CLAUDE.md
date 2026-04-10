@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ## Project Overview
 
-**Skeleton Astro + Strapi** is a full-stack starter project combining a Strapi v5 headless CMS with an Astro 6 SSR frontend. It serves as a reusable base for web projects with content management, contact forms, newsletter subscriptions, and Docker-based deployment.
+**Skeleton Test** is a full-stack project combining a Strapi v5 headless CMS with an Astro 6 SSR frontend, with content management, contact forms, newsletter subscriptions, and Docker-based deployment.
 
 **Key Technologies:**
 - **Backend**: Strapi v5.40 (Node.js headless CMS, REST API, PostgreSQL)
@@ -18,7 +18,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ## Project Structure
 
 ```
-skeleton-astro-strapi/
+skeleton-test/
 ├── .github/workflows/              # CI/CD
 │   ├── dev.yml                     # Build & push Docker images on push to main
 │   └── deploy.yml                  # Manual SSH remote deployment

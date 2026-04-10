@@ -1,4 +1,4 @@
-# Project Practices — Skeleton Astro + Strapi
+# Project Practices — Skeleton Test
 
 ## Practice docs to read
 
